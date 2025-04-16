@@ -1,11 +1,10 @@
 from flask import Flask, render_template,request,redirect, url_for
-from flask_sqlalchemy  import SQLAlchemy
+import sqlite3
 
 app = Flask(__name__)
+DATABASE = 'numeri.db'
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///C:/documenti/numeri.db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-db = SQLAlchemy(app)
+
 
 @app.route('/')
 def home():
@@ -21,9 +20,6 @@ def order():
 def submit():
     numero = request.form.get('numero')
 
-    nuovo_numero = numero(valore=numero)
-    db.session.add(nuovo_numero)
-    db.session.commit()
 
     # Redirect alla pagina /order, passando il numero come parte della query string
     return redirect(url_for('order', numero=numero))
