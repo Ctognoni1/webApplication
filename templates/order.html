@@ -1,0 +1,22 @@
+<h1>Inserisci ore lavorate</h1>
+
+<form action="{{ url_for('submit') }}" method="POST">
+    <table border="1">
+        <tr>
+            <th>Nome</th>
+            <th>Ore lavorate</th>
+        </tr>
+        {% for utente in utenti %}
+        <tr>
+            <td>{{ utente.nome }}</td>
+            <td>
+                <input type="number" name="valore_{{ utente.id }}" value="{{ utente.valore or '' }}">
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+  <button type="submit">Salva</button>
+  
+</form>
+<p>LINK DI TEST: {{ url_for('home') }}</p>
+<a href="{{ url_for('home') }}">Vai alla prima pagina</a>
