@@ -1,22 +1,68 @@
-<h1>Inserisci ore lavorate</h1>
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Inserisci Ore Lavorate lunedi</title>
+    <style>
+        table {
+            width: 70%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 5px;
+            text-align: center;
+            border: 1px solid #ccc;
+        }
+        input[type="number"] {
+            width: 80px;
+        }
+        button {
+            margin-top: 8px;
+        }
+    </style>
+</head>
+<body>
 
-<form action="{{ url_for('submit') }}" method="POST">
-    <table border="1">
-        <tr>
-            <th>Nome</th>
-            <th>Ore lavorate</th>
-        </tr>
-        {% for utente in utenti %}
-        <tr>
-            <td>{{ utente.nome }}</td>
-            <td>
-                <input type="number" name="valore_{{ utente.id }}" value="{{ utente.valore or '' }}">
-            </td>
-        </tr>
-        {% endfor %}
+<h2>Inserisci ore lavorate</h2>
+<p style="color:red;">DEBUG: Template caricato correttamente</p>
+
+
+{% if utenti %}
+<form method="POST" action="{{ url_for('submit') }}">
+    <table>
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Ore Totali</th>
+                <th>Ore Lunedì</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for utente in utenti %}
+            <tr>
+                <td>{{ utente.nome }}</td>
+                <td>
+                    <input type="number" name="valore_{{ utente.id }}" value="{{ utente.valore or '' }}" min="-2">
+                </td>
+                <td>
+                    <input type="number" name="lunedi_{{ utente.id }}" value="{{ utente.lun or '' }}" min="0">
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
     </table>
-  <button type="submit">Salva</button>
-  
+    <button type="submit">Salva</button>
 </form>
-<p>LINK DI TEST: {{ url_for('home') }}</p>
-<a href="{{ url_for('home') }}">Vai alla prima pagina</a>
+{% else %}
+<p>Nessun utente trovato nel database.</p>
+{% endif %}
+
+<a href="{{ url_for('home') }}">Torna alla Home</a>
+
+<h2>Grafico Valori</h2>
+<img src="{{ url_for('plot_png') }}" alt="Grafico">
+</body>
+</html>
+
+</body>
+</html>
